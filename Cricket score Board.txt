@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure to represent a cricket team
+struct Team {
+    char name[50];
+    int totalRuns;
+    int wicketsLost;
+    int totalOvers;
+};
+
+// Function to display the scoreboard
+void displayScoreboard(struct Team team1, struct Team team2, int currentOver, int currentBall, int currentRuns) {
+    printf("\n---------------------------------------\n");
+    printf("          CRICKET SCOREBOARD           \n");
+    printf("---------------------------------------\n\n");
+    printf("       %s     |    %s\n", team1.name, team2.name);
+    printf("---------------------------------------\n");
+    printf("Runs:  %d/%d   |    %d/%d\n", team1.totalRuns, team1.wicketsLost, team2.totalRuns, team2.wicketsLost);
+    printf("Overs: %d.%d      |    %d.%d\n", currentOver, currentBall, team2.totalOvers, 0);
+    printf("Total: %d       |    %d\n", currentRuns, team2.totalRuns + 1);
+    printf("---------------------------------------\n");
+}
+
+int main() {
+    // Initialize teams
+    struct Team team1, team2;
+    strcpy(team1.name, "Team 1");
+    strcpy(team2.name, "Team 2");
+    team1.totalRuns = 0;
+    team1.wicketsLost = 0;
+    team1.totalOvers = 0;
+    team2.totalRuns = 0;
+    team2.wicketsLost = 0;
+    team2.totalOvers = 0;
+
+    // Initialize variables
+    int currentOver = 0;
+    int currentBall = 0;
+    int currentRuns = 0;
+
+    // Display initial scoreboard
+    displayScoreboard(team1, team2, currentOver, currentBall, currentRuns);
+
+    // Simulate the game
+    for (currentOver = 0; currentOver < 50; currentOver++) {
+        for (currentBall = 0; currentBall < 6; currentBall++) {
+            // Simulate runs scored in each ball
+            currentRuns = rand() % 7; // Generating random runs between 0 to 6
+
+            // Update team 1's score
+            team1.totalRuns += currentRuns;
+            if (currentRuns > 0) {
+                printf("\n%d.%d: %s scores %d run(s)", currentOver, currentBall, team1.name, currentRuns);
+            } else {
+                printf("\n%d.%d: %s misses the ball", currentOver, currentBall, team1.name);
+            }
+            // Display updated scoreboard
+            displayScoreboard(team1, team2, currentOver, currentBall, currentRuns);
+        }
+    }
+
+    return 0;
+}
